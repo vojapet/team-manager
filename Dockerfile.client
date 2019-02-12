@@ -1,0 +1,18 @@
+FROM golang
+COPY client.go /go/src/team-manager/
+WORKDIR /go/src/team-manager/
+RUN go get
+RUN go build -o client
+
+ADD crontab /etc/cron.d/client-cron
+RUN chmod 0644 /etc/cron.d/client-cron
+RUN touch /var/log/client.log
+
+RUN apt-get update
+RUN apt-get -y install cron
+
+CMD echo "TEAM_URL=\"${TEAM_URL}\"" > /root/.profile; \
+    echo "TEAM_LOGIN=\"${TEAM_LOGIN}\"" >> /root/.profile; \
+    echo "TEAM_PASSWORD=\"${TEAM_PASSWORD}\"" >> /root/.profile; \
+    cron && tail -f /var/log/client.log
+#CMD 

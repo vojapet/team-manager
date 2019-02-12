@@ -1,0 +1,2 @@
+* * * * * root . /root/.profile && /go/src/team-manager/client -url="$TEAM_URL" -login="$TEAM_LOGIN" -password="$TEAM_PASSWORD"  >> /var/log/client.log 2>>/var/log/client.err
+# Don't remove the empty line at the end of this file. It is required to run the cron job

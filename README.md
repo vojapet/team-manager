@@ -60,7 +60,9 @@ User will be removed from members of team (http auth)
 
 ## Docker
 
-To build image with server:
+### Server
+
+To build server image:
 
 ```
 # docker build -t team-server .
@@ -70,4 +72,18 @@ To run sever image (using default port 8000):
 
 ```
 # docker run -p 8000:8000 team-server
+```
+
+### Client
+
+To build 'client' image:
+
+```
+docker build -f Dockerfile.client -t client .
+```
+
+To run  'client' image (the login and password is taken from data in *server_test.sh* ):
+
+```
+docker run -it -e TEAM_URL='<add-server-url>' -e TEAM_LOGIN='jdoe_1@email.com' -e TEAM_PASSWORD='a' client
 ```

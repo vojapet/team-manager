@@ -53,12 +53,14 @@ func readTeamApi(url string, login string, passwd string) []Team {
 }
 
 func printTeams(theTeams []Team, aTeam string) {
+	log.SetOutput(os.Stdout)
 	for _, team := range(theTeams) {
 		if aTeam != "" && aTeam != team.Name {
 			continue
 		}
-		fmt.Printf("%s,%d\n", team.Name, team.MemberCount)
+		log.Printf("%s,%d\n", team.Name, team.MemberCount)
 	}
+	log.SetOutput(os.Stderr)
 }
 
 func main() {
@@ -73,7 +75,7 @@ func main() {
 		fmt.Fprintf(flag.CommandLine.Output(), "\n\n")
 		fmt.Fprintf(flag.CommandLine.Output(), "Client expect the JSON retrieved from API is array of 'Team' object. Team is struct with 'name', 'description' and ''membercount' fields.\n\n")
 	}
-	
+
 	flag.Parse()
 	printTeams(readTeamApi(*urlPtr, *loginPtr, *passwdPtr), *teamPtr)
 }
