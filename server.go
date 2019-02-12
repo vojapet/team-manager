@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"os"
 	"flag"
 	"strings"
@@ -239,8 +240,11 @@ func (teams *Teams) GetTeamSlice() []*Team {
 		result = append(result, team)
 	}
 
-	return result
+	sort.Slice(result, func(i, j int) bool {
+		return result[i].Name < result[j].Name
+	})
 
+	return result
 }
 
 // Returns the Team struct with name that equals aTeamName or nil if not found
@@ -344,7 +348,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		log.Print("Password missing - user not created.")
 		return
 	}
-	
+
 	if users.InsertUser(&u) {
 		w.WriteHeader(http.StatusCreated)
 		log.Printf("User [%s] created.", u.Email)
@@ -454,7 +458,7 @@ func main() {
 		flag.PrintDefaults()
 		fmt.Fprintf(flag.CommandLine.Output(), "\n\n")
 		fmt.Fprintf(flag.CommandLine.Output(), "Http server with implemented two RestApi endpoints. The server uses `basic http auth` - username ~ user.email, password ~ user.password.\n\n")
-		
+
 		fmt.Fprintf(flag.CommandLine.Output(), "/api/user - PUT ~ creates user\n")
 		fmt.Fprintf(flag.CommandLine.Output(), "/api/user - GET ~ retrieve user info (http auth)\n")
 		fmt.Fprintf(flag.CommandLine.Output(), "/api/user - POST ~ updates user info (http auth)\n\n")
@@ -464,10 +468,10 @@ func main() {
 		fmt.Fprintf(flag.CommandLine.Output(), "/api/team/{team_name}/subscribe - POST ~ user will be added to members of team (http auth)\n")
 		fmt.Fprintf(flag.CommandLine.Output(), "/api/team/{team_name}/unsubscribe - POST ~ user will be removed from members of team (http auth)\n\n")
 
-		fmt.Fprintf(flag.CommandLine.Output(), "Data description:\n")		
+		fmt.Fprintf(flag.CommandLine.Output(), "Data description:\n")
 		fmt.Fprintf(flag.CommandLine.Output(), "User ~ {\"email\": \"\", \"firstname\": \"\", \"secondname\": \"\", \"password\": \"\"}.\n")
 		fmt.Fprintf(flag.CommandLine.Output(), "Team ~ {\"name\": \"\", \"description\": \"\"}.\n\n")
-		
+
 	}
 
 
