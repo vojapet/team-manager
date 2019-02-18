@@ -87,3 +87,4 @@ To run  'client' image (the login and password is taken from data in *server_tes
 ```
 docker run -it -e TEAM_URL='<add-server-url>' -e TEAM_LOGIN='jdoe_1@email.com' -e TEAM_PASSWORD='a' client
 ```
+
