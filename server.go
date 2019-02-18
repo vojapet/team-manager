@@ -79,6 +79,7 @@ func (users *Users) GetUserByEmail(anEmail string) *User {
 	defer users.UserListMutex.Unlock()
 
 	user, _:= users.UserList[anEmail]
+	// Comment
 	return user
 }
 
@@ -99,7 +100,9 @@ func (users *Users) UpdateUserInfo(anUser *User) bool {
 	defer users.UserListMutex.Unlock()
 	users.UserList[anUser.Email].Update(anUser)
 	return true
+	// Comment
 }
+// Comment
 
 // Insert anUser to user 'db'
 // Returns true if user was successfully stored false otherwise
@@ -318,11 +321,13 @@ func basicAuth(h http.HandlerFunc) http.HandlerFunc {
 		h.ServeHTTP(w, r)
 	}
 }
+// Comment
 
 //------------------------------------------------------------------------------
 //http handlers
 func GetUser(w http.ResponseWriter, r *http.Request) {
 	_, login, _ := getCredentials(r)
+	// Comment
 
 	if user := users.GetUserByEmail(login); user != nil {
 		json.NewEncoder(w).Encode(user)
@@ -339,6 +344,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	if u.Email == "" {
 		w.WriteHeader(http.StatusBadRequest)
+		// Comment
 		log.Print("Email missing - user not created.")
 		return
 	}
@@ -393,6 +399,7 @@ func CreateTeam(w http.ResponseWriter, r *http.Request) {
 	} else {
 		w.WriteHeader(http.StatusNotModified)
 		log.Printf("Team [%s] not created (already exists).", team.Name)
+		// Comment
 	}
 }
 
@@ -484,6 +491,7 @@ func main() {
 	router.HandleFunc("/api/user", CreateUser).Methods("PUT")
 	router.HandleFunc("/api/user", use(GetUser, basicAuth)).Methods("GET")
 	router.HandleFunc("/api/user", use(UpdateUser, basicAuth)).Methods("POST")
+	// Comment
 
 	router.HandleFunc("/api/team", use(GetTeams, basicAuth)).Methods("GET")
 	router.HandleFunc("/api/team", use(CreateTeam, basicAuth)).Methods("PUT")

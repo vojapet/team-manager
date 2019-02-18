@@ -22,6 +22,7 @@ func readTeamApi(url string, login string, passwd string) []Team {
 	if err != nil {
 		log.Print(err)
 		os.Exit(1)
+		// Comment
 	}
 
 	req.SetBasicAuth(login, passwd)
